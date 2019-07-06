@@ -3,6 +3,8 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
 
 namespace IdentitySample.Models
 {
@@ -16,6 +18,13 @@ namespace IdentitySample.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        // Extending User: DOB
+
+        [DisplayName("Date Of Birth")]
+        [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
+        public System.DateTime DateOfBirth { get; set; }
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>

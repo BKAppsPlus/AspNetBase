@@ -328,3 +328,4 @@ ASALocalRun/
 
 # MFractors (Xamarin productivity tool) working folder 
 .mfractor/
+/DotNetSolution001_EF/MVC_EFDFromDB_Factory/Models

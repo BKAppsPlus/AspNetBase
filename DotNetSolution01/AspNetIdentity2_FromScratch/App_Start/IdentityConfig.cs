@@ -114,29 +114,42 @@ namespace IdentitySample.Models
         public static void InitializeIdentityForEF(ApplicationDbContext db) {
             var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
-            const string name = "admin@example.com";
+
+            const int numberofUser_Roles = 3;
+            const string names = "admin@example.com|Prov_Person@example.com|Cons_Person@example.com";
             const string password = "Admin@123456";
-            const string roleName = "Admin";
+            const string roleNames = "Admin|Provider|Consumer";
+            string[] roles = roleNames.Split('|');
+            string[] usernames = names.Split('|');
+            
+            for (int i = 0; i < numberofUser_Roles; i++)
+            {
+                //Create Role Admin if it does not exist
+                var role = roleManager.FindByName(roles[i]);
+                if (role == null)
+                {
+                    role = new IdentityRole(roles[i]);
+                    var roleresult = roleManager.Create(role);
+                }
 
-            //Create Role Admin if it does not exist
-            var role = roleManager.FindByName(roleName);
-            if (role == null) {
-                role = new IdentityRole(roleName);
-                var roleresult = roleManager.Create(role);
-            }
+                var user = userManager.FindByName(usernames[i]);
+                if (user == null)
+                {
+                    user = new ApplicationUser { UserName = usernames[i], Email = usernames[i], DateOfBirth = DateTime.Now.Date };
+                    var result = userManager.Create(user, password);
+                    result = userManager.SetLockoutEnabled(user.Id, false);
+                }
 
-            var user = userManager.FindByName(name);
-            if (user == null) {
-                user = new ApplicationUser { UserName = name, Email = name };
-                var result = userManager.Create(user, password);
-                result = userManager.SetLockoutEnabled(user.Id, false);
+                // Add user admin to Role Admin if not already added
+                var rolesForUser = userManager.GetRoles(user.Id);
+                if (!rolesForUser.Contains(role.Name))
+                {
+                    var result = userManager.AddToRole(user.Id, role.Name);
+                }
             }
+            
 
-            // Add user admin to Role Admin if not already added
-            var rolesForUser = userManager.GetRoles(user.Id);
-            if (!rolesForUser.Contains(role.Name)) {
-                var result = userManager.AddToRole(user.Id, role.Name);
-            }
+            
         }
     }
 

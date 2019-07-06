@@ -90,7 +90,14 @@ namespace IdentitySample.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email };
+                var user = new ApplicationUser { UserName = userViewModel.Email, Email = userViewModel.Email
+                    // Extending User: DOB
+                    , DateOfBirth = userViewModel.DateOfBirth.Date
+                };
+
+                // Extending User: DOB????
+                user.DateOfBirth = userViewModel.DateOfBirth.Date;
+
                 var adminresult = await UserManager.CreateAsync(user, userViewModel.Password);
 
                 //Add User to the selected Roles 
@@ -141,6 +148,9 @@ namespace IdentitySample.Controllers
             {
                 Id = user.Id,
                 Email = user.Email,
+                // Extending User: DOB
+                DateOfBirth = user.DateOfBirth.Date,
+
                 RolesList = RoleManager.Roles.ToList().Select(x => new SelectListItem()
                 {
                     Selected = userRoles.Contains(x.Name),
@@ -166,6 +176,8 @@ namespace IdentitySample.Controllers
 
                 user.UserName = editUser.Email;
                 user.Email = editUser.Email;
+                // Extending User: DOB
+                user.DateOfBirth = editUser.DateOfBirth.Date;
 
                 var userRoles = await UserManager.GetRolesAsync(user.Id);
 
