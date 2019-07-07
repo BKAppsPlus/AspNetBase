@@ -13,11 +13,22 @@ namespace IdentitySample.Controllers
     public class AccountController : Controller
     {
 
-        ApplicationDbContext context;
+        private ApplicationRoleManager _roleManager;
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+
 
         public AccountController()
         {
-            context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -141,7 +152,8 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.RegisteringUserRole = new SelectList(context.Roles.ToList(), "Name", "Name");
+            ViewBag.RegisteringUserRole = new SelectList(RoleManager.Roles.ToList(), "Name", "Name");
+            //ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
             return View();
         }
 
@@ -162,6 +174,7 @@ namespace IdentitySample.Controllers
 
                 if (result.Succeeded)
                 {
+                    await UserManager.AddToRoleAsync(user.Id, model.RegisteringUserRole);
                     var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");

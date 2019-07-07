@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using System;
 
 namespace IdentitySample.Models
 {
@@ -23,7 +24,7 @@ namespace IdentitySample.Models
 
         [DisplayName("Date Of Birth")]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
-        public System.DateTime DateOfBirth { get; set; }
+        public DateTime DateOfBirth { get; set; } = DateTime.Now;
 
     }
 
