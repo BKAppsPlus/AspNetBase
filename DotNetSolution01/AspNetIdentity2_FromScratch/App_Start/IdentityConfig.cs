@@ -116,11 +116,11 @@ namespace IdentitySample.Models
             var roleManager = HttpContext.Current.GetOwinContext().Get<ApplicationRoleManager>();
 
             const int numberofUser_Roles = 3;
-            const string names = "admin@example.com|Prov_Person@example.com|Cons_Person@example.com";
+            const string initialNames = "admin@example.com|Prov_Person@example.com|Cons_Person@example.com";
             const string password = "Admin@123456";
-            const string roleNames = "Admin|Provider|Consumer";
-            string[] roles = roleNames.Split('|');
-            string[] usernames = names.Split('|');
+            const string initialRoleNames = "Admin|Provider|Consumer";
+            string[] roles = initialRoleNames.Split('|');
+            string[] usernames = initialNames.Split('|');
             
             for (int i = 0; i < numberofUser_Roles; i++)
             {

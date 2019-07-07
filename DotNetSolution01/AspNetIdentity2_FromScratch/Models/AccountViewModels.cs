@@ -85,6 +85,9 @@ namespace IdentitySample.Models
         [DisplayName("Date Of Birth")]
         [DisplayFormat(DataFormatString = "{0:d}", ApplyFormatInEditMode = true)]
         public System.DateTime DateOfBirth { get; set; }
+
+        public string RegisteringUserRole { set; get; }
+
     }
 
     public class ResetPasswordViewModel

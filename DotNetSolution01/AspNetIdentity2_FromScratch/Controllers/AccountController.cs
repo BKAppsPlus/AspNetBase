@@ -12,8 +12,12 @@ namespace IdentitySample.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+
+        ApplicationDbContext context;
+
         public AccountController()
         {
+            context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -137,6 +141,7 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.RegisteringUserRole = new SelectList(context.Roles.ToList(), "Name", "Name");
             return View();
         }
 
