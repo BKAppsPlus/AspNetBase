@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -152,7 +153,7 @@ namespace IdentitySample.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            ViewBag.RegisteringUserRole = new SelectList(RoleManager.Roles.ToList(), "Name", "Name");
+            ViewBag.RolestoRegister = new SelectList(RoleManager.Roles.ToList(), "Name", "Name");
             //ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
             return View();
         }
@@ -162,28 +163,45 @@ namespace IdentitySample.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, params string[] selectedRoles)
         {
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                var userresult = await UserManager.CreateAsync(user, model.Password);
 
                 // Extending User: DOB
                 user.DateOfBirth = model.DateOfBirth;
 
-                if (result.Succeeded)
+                if (userresult.Succeeded)
                 {
-                    await UserManager.AddToRoleAsync(user.Id, model.RegisteringUserRole);
-                    var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
-                    ViewBag.Link = callbackUrl;
-                    return View("DisplayEmail");
-                }
-                AddErrors(result);
-            }
+                    if (selectedRoles != null)
+                    {
 
+                        var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking this link: <a href=\"" + callbackUrl + "\">link</a>");
+                        ViewBag.Link = callbackUrl;
+                        var result = await UserManager.AddToRolesAsync(user.Id, selectedRoles);
+                        if (!result.Succeeded)
+                        {
+                            // do something
+                            //ModelState.AddModelError("", result.Errors.First());
+                            //ViewBag.RoleId = new SelectList(await RoleManager.Roles.ToListAsync(), "Name", "Name");
+                            //return View();
+                        }
+                        return View("DisplayEmail");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("", userresult.Errors.First());
+                    ViewBag.RoleId = new SelectList(RoleManager.Roles, "Name", "Name");
+                    return View();
+                }
+                AddErrors(userresult);
+            }
+            ViewBag.RolestoRegister = new SelectList(RoleManager.Roles.ToList(), "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }
