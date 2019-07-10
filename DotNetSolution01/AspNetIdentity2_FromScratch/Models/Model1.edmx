@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AspNetIdentity2_FromScratch.AspNetIdentityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Core_CnsServiceUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PrimaryUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Core_PartyConsumerInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ConsumerName" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Core_PartyMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PartyType" Type="nvarchar" MaxLength="128" />
+          <Property Name="PrimaryUserId" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Core_PartyProviderInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ProviderName" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Core_PartyService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PartyId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ServiceUnitId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Core_PrvServiceUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PrimaryUserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Core_PartyConsumerInfo_Core_PartyMaster">
+          <End Role="Core_PartyMaster" Type="Self.Core_PartyMaster" Multiplicity="1" />
+          <End Role="Core_PartyConsumerInfo" Type="Self.Core_PartyConsumerInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Core_PartyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyConsumerInfo">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_PartyProviderInfo_Core_PartyMaster">
+          <End Role="Core_PartyMaster" Type="Self.Core_PartyMaster" Multiplicity="1" />
+          <End Role="Core_PartyProviderInfo" Type="Self.Core_PartyProviderInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Core_PartyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyProviderInfo">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_PartyService_Core_CnsServiceUnit">
+          <End Role="Core_CnsServiceUnit" Type="Self.Core_CnsServiceUnit" Multiplicity="1" />
+          <End Role="Core_PartyService" Type="Self.Core_PartyService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_CnsServiceUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyService">
+              <PropertyRef Name="ServiceUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_PartyService_Core_PartyMaster">
+          <End Role="Core_PartyMaster" Type="Self.Core_PartyMaster" Multiplicity="1" />
+          <End Role="Core_PartyService" Type="Self.Core_PartyService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_PartyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyService">
+              <PropertyRef Name="PartyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_PartyServiceUnit_Core_PartyMaster">
+          <End Role="Core_PrvServiceUnit" Type="Self.Core_PrvServiceUnit" Multiplicity="1" />
+          <End Role="Core_PartyService" Type="Self.Core_PartyService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_PrvServiceUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyService">
+              <PropertyRef Name="ServiceUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AspNetIdentity2_FromScratchAspNetIdentityModelStoreContainer">
+          <EntitySet Name="Core_CnsServiceUnit" EntityType="Self.Core_CnsServiceUnit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_PartyConsumerInfo" EntityType="Self.Core_PartyConsumerInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_PartyMaster" EntityType="Self.Core_PartyMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_PartyProviderInfo" EntityType="Self.Core_PartyProviderInfo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_PartyService" EntityType="Self.Core_PartyService" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_PrvServiceUnit" EntityType="Self.Core_PrvServiceUnit" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Core_PartyConsumerInfo_Core_PartyMaster" Association="Self.FK_Core_PartyConsumerInfo_Core_PartyMaster">
+            <End Role="Core_PartyMaster" EntitySet="Core_PartyMaster" />
+            <End Role="Core_PartyConsumerInfo" EntitySet="Core_PartyConsumerInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_PartyProviderInfo_Core_PartyMaster" Association="Self.FK_Core_PartyProviderInfo_Core_PartyMaster">
+            <End Role="Core_PartyMaster" EntitySet="Core_PartyMaster" />
+            <End Role="Core_PartyProviderInfo" EntitySet="Core_PartyProviderInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_PartyService_Core_CnsServiceUnit" Association="Self.FK_Core_PartyService_Core_CnsServiceUnit">
+            <End Role="Core_CnsServiceUnit" EntitySet="Core_CnsServiceUnit" />
+            <End Role="Core_PartyService" EntitySet="Core_PartyService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_PartyService_Core_PartyMaster" Association="Self.FK_Core_PartyService_Core_PartyMaster">
+            <End Role="Core_PartyMaster" EntitySet="Core_PartyMaster" />
+            <End Role="Core_PartyService" EntitySet="Core_PartyService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_PartyServiceUnit_Core_PartyMaster" Association="Self.FK_Core_PartyServiceUnit_Core_PartyMaster">
+            <End Role="Core_PrvServiceUnit" EntitySet="Core_PrvServiceUnit" />
+            <End Role="Core_PartyService" EntitySet="Core_PartyService" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AspNetIdentity2_FromScratch.AspNetIdentityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Core_CnsServiceUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PrimaryUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Core_PartyService" Relationship="Self.FK_Core_PartyService_Core_CnsServiceUnit" FromRole="Core_CnsServiceUnit" ToRole="Core_PartyService" />
+        </EntityType>
+        <EntityType Name="Core_PartyConsumerInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ConsumerName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Core_PartyMaster" Relationship="Self.FK_Core_PartyConsumerInfo_Core_PartyMaster" FromRole="Core_PartyConsumerInfo" ToRole="Core_PartyMaster" />
+        </EntityType>
+        <EntityType Name="Core_PartyMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PartyType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PrimaryUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Core_PartyConsumerInfo" Relationship="Self.FK_Core_PartyConsumerInfo_Core_PartyMaster" FromRole="Core_PartyMaster" ToRole="Core_PartyConsumerInfo" />
+          <NavigationProperty Name="Core_PartyProviderInfo" Relationship="Self.FK_Core_PartyProviderInfo_Core_PartyMaster" FromRole="Core_PartyMaster" ToRole="Core_PartyProviderInfo" />
+          <NavigationProperty Name="Core_PartyService" Relationship="Self.FK_Core_PartyService_Core_PartyMaster" FromRole="Core_PartyMaster" ToRole="Core_PartyService" />
+        </EntityType>
+        <EntityType Name="Core_PartyProviderInfo">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Core_PartyMaster" Relationship="Self.FK_Core_PartyProviderInfo_Core_PartyMaster" FromRole="Core_PartyProviderInfo" ToRole="Core_PartyMaster" />
+        </EntityType>
+        <EntityType Name="Core_PartyService">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PartyId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ServiceUnitId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Core_CnsServiceUnit" Relationship="Self.FK_Core_PartyService_Core_CnsServiceUnit" FromRole="Core_PartyService" ToRole="Core_CnsServiceUnit" />
+          <NavigationProperty Name="Core_PartyMaster" Relationship="Self.FK_Core_PartyService_Core_PartyMaster" FromRole="Core_PartyService" ToRole="Core_PartyMaster" />
+          <NavigationProperty Name="Core_PrvServiceUnit" Relationship="Self.FK_Core_PartyServiceUnit_Core_PartyMaster" FromRole="Core_PartyService" ToRole="Core_PrvServiceUnit" />
+        </EntityType>
+        <EntityType Name="Core_PrvServiceUnit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="PrimaryUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Core_PartyService" Relationship="Self.FK_Core_PartyServiceUnit_Core_PartyMaster" FromRole="Core_PrvServiceUnit" ToRole="Core_PartyService" />
+        </EntityType>
+        <Association Name="FK_Core_PartyService_Core_CnsServiceUnit">
+          <End Role="Core_CnsServiceUnit" Type="Self.Core_CnsServiceUnit" Multiplicity="1" />
+          <End Role="Core_PartyService" Type="Self.Core_PartyService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_CnsServiceUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyService">
+              <PropertyRef Name="ServiceUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_PartyConsumerInfo_Core_PartyMaster">
+          <End Role="Core_PartyMaster" Type="Self.Core_PartyMaster" Multiplicity="1" />
+          <End Role="Core_PartyConsumerInfo" Type="Self.Core_PartyConsumerInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Core_PartyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyConsumerInfo">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_PartyProviderInfo_Core_PartyMaster">
+          <End Role="Core_PartyMaster" Type="Self.Core_PartyMaster" Multiplicity="1" />
+          <End Role="Core_PartyProviderInfo" Type="Self.Core_PartyProviderInfo" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Core_PartyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyProviderInfo">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_PartyService_Core_PartyMaster">
+          <End Role="Core_PartyMaster" Type="Self.Core_PartyMaster" Multiplicity="1" />
+          <End Role="Core_PartyService" Type="Self.Core_PartyService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_PartyMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyService">
+              <PropertyRef Name="PartyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_PartyServiceUnit_Core_PartyMaster">
+          <End Role="Core_PrvServiceUnit" Type="Self.Core_PrvServiceUnit" Multiplicity="1" />
+          <End Role="Core_PartyService" Type="Self.Core_PartyService" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_PrvServiceUnit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_PartyService">
+              <PropertyRef Name="ServiceUnitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Core_CnsServiceUnit" EntityType="Self.Core_CnsServiceUnit" />
+          <EntitySet Name="Core_PartyConsumerInfo" EntityType="Self.Core_PartyConsumerInfo" />
+          <EntitySet Name="Core_PartyMaster" EntityType="Self.Core_PartyMaster" />
+          <EntitySet Name="Core_PartyProviderInfo" EntityType="Self.Core_PartyProviderInfo" />
+          <EntitySet Name="Core_PartyService" EntityType="Self.Core_PartyService" />
+          <EntitySet Name="Core_PrvServiceUnit" EntityType="Self.Core_PrvServiceUnit" />
+          <AssociationSet Name="FK_Core_PartyService_Core_CnsServiceUnit" Association="Self.FK_Core_PartyService_Core_CnsServiceUnit">
+            <End Role="Core_CnsServiceUnit" EntitySet="Core_CnsServiceUnit" />
+            <End Role="Core_PartyService" EntitySet="Core_PartyService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_PartyConsumerInfo_Core_PartyMaster" Association="Self.FK_Core_PartyConsumerInfo_Core_PartyMaster">
+            <End Role="Core_PartyMaster" EntitySet="Core_PartyMaster" />
+            <End Role="Core_PartyConsumerInfo" EntitySet="Core_PartyConsumerInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_PartyProviderInfo_Core_PartyMaster" Association="Self.FK_Core_PartyProviderInfo_Core_PartyMaster">
+            <End Role="Core_PartyMaster" EntitySet="Core_PartyMaster" />
+            <End Role="Core_PartyProviderInfo" EntitySet="Core_PartyProviderInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_PartyService_Core_PartyMaster" Association="Self.FK_Core_PartyService_Core_PartyMaster">
+            <End Role="Core_PartyMaster" EntitySet="Core_PartyMaster" />
+            <End Role="Core_PartyService" EntitySet="Core_PartyService" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_PartyServiceUnit_Core_PartyMaster" Association="Self.FK_Core_PartyServiceUnit_Core_PartyMaster">
+            <End Role="Core_PrvServiceUnit" EntitySet="Core_PrvServiceUnit" />
+            <End Role="Core_PartyService" EntitySet="Core_PartyService" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AspNetIdentity2_FromScratchAspNetIdentityModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Core_CnsServiceUnit">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_CnsServiceUnit">
+              <MappingFragment StoreEntitySet="Core_CnsServiceUnit">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PrimaryUserId" ColumnName="PrimaryUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_PartyConsumerInfo">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyConsumerInfo">
+              <MappingFragment StoreEntitySet="Core_PartyConsumerInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ConsumerName" ColumnName="ConsumerName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_PartyMaster">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyMaster">
+              <MappingFragment StoreEntitySet="Core_PartyMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PartyType" ColumnName="PartyType" />
+                <ScalarProperty Name="PrimaryUserId" ColumnName="PrimaryUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_PartyProviderInfo">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyProviderInfo">
+              <MappingFragment StoreEntitySet="Core_PartyProviderInfo">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProviderName" ColumnName="ProviderName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_PartyService">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyService">
+              <MappingFragment StoreEntitySet="Core_PartyService">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PartyId" ColumnName="PartyId" />
+                <ScalarProperty Name="ServiceUnitId" ColumnName="ServiceUnitId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_PrvServiceUnit">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PrvServiceUnit">
+              <MappingFragment StoreEntitySet="Core_PrvServiceUnit">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="PrimaryUserId" ColumnName="PrimaryUserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

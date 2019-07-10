@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ed08b6cd43564acb996866aee7bcca0a" Name="Diagram1">
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_CnsServiceUnit" Width="1.5" PointX="9.125" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyConsumerInfo" Width="2.25" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyMaster" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyProviderInfo" Width="2.25" PointX="3" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyService" Width="2" PointX="6" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PrvServiceUnit" Width="2.25" PointX="8.875" PointY="5" IsExpanded="true" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_PartyService_Core_CnsServiceUnit" ManuallyRouted="false" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_PartyConsumerInfo_Core_PartyMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_PartyProviderInfo_Core_PartyMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_PartyService_Core_PartyMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_PartyServiceUnit_Core_PartyMaster" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
