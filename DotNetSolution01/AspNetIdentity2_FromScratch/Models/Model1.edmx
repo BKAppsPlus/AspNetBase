@@ -1,0 +1,512 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AspNetIdentity2_FromScratch.AspNetIdentityModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Core_Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PartyId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AddressType" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="AddressLine1" Type="nvarchar" MaxLength="128" />
+          <Property Name="AddressLine2" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="City" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="State" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Zip" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="ModifiedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Core_Apointments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProviderId" Type="int" />
+          <Property Name="CosumerId" Type="int" />
+          <Property Name="ServiceId" Type="int" />
+          <Property Name="StartTime" Type="datetime" />
+          <Property Name="EndTime" Type="datetime" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="Modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Core_Consumers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="ConsumerType" Type="nvarchar" MaxLength="128" />
+          <Property Name="PrimaryUserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="SecondaryUserId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="Modified" Type="datetime" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'AspNetIdentity2_FromScratch.AspNetIdentity.dbo.Core_CosumerServices' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Core_CosumerServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ConsumerId" Type="int" />
+          <Property Name="ServiceId" Type="int" />
+        </EntityType>
+        <EntityType Name="Core_PartyTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PartyType" Type="nvarchar" MaxLength="128" />
+          <Property Name="Value" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Core_Providers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProviderType" Type="int" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="PrimaryUsreId" Type="nvarchar" MaxLength="128" />
+          <Property Name="SecondaryUsreId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Licence" Type="nvarchar" MaxLength="128" />
+          <Property Name="ServiceCapacity" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="Modified" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Core_ServiceCatalog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentId" Type="int" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" />
+          <Property Name="Cost" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ServiceUnit" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="Created" Type="datetime" />
+          <Property Name="Modified" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_Core_Apointments_Core_Consumers">
+          <End Role="Core_Consumers" Type="Self.Core_Consumers" Multiplicity="0..1" />
+          <End Role="Core_Apointments" Type="Self.Core_Apointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_Consumers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_Apointments">
+              <PropertyRef Name="CosumerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_Apointments_Core_Providers">
+          <End Role="Core_Providers" Type="Self.Core_Providers" Multiplicity="0..1" />
+          <End Role="Core_Apointments" Type="Self.Core_Apointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_Providers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_Apointments">
+              <PropertyRef Name="ProviderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_Apointments_Core_ServiceCatalog">
+          <End Role="Core_ServiceCatalog" Type="Self.Core_ServiceCatalog" Multiplicity="0..1" />
+          <End Role="Core_Apointments" Type="Self.Core_Apointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_ServiceCatalog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_Apointments">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_CosumerServices_Core_Consumers">
+          <End Role="Core_Consumers" Type="Self.Core_Consumers" Multiplicity="0..1" />
+          <End Role="Core_CosumerServices" Type="Self.Core_CosumerServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_Consumers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_CosumerServices">
+              <PropertyRef Name="ConsumerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_CosumerServices_Core_ServiceCatalog">
+          <End Role="Core_ServiceCatalog" Type="Self.Core_ServiceCatalog" Multiplicity="0..1" />
+          <End Role="Core_CosumerServices" Type="Self.Core_CosumerServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_ServiceCatalog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_CosumerServices">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AspNetIdentity2_FromScratchAspNetIdentityModelStoreContainer">
+          <EntitySet Name="Core_Address" EntityType="Self.Core_Address" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_Apointments" EntityType="Self.Core_Apointments" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_Consumers" EntityType="Self.Core_Consumers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_PartyTypes" EntityType="Self.Core_PartyTypes" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_Providers" EntityType="Self.Core_Providers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_ServiceCatalog" EntityType="Self.Core_ServiceCatalog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Core_CosumerServices" EntityType="Self.Core_CosumerServices" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Core_CosumerServices].[Id] AS [Id], 
+    [Core_CosumerServices].[ConsumerId] AS [ConsumerId], 
+    [Core_CosumerServices].[ServiceId] AS [ServiceId]
+    FROM [dbo].[Core_CosumerServices] AS [Core_CosumerServices]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Core_Apointments_Core_Consumers" Association="Self.FK_Core_Apointments_Core_Consumers">
+            <End Role="Core_Consumers" EntitySet="Core_Consumers" />
+            <End Role="Core_Apointments" EntitySet="Core_Apointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_Apointments_Core_Providers" Association="Self.FK_Core_Apointments_Core_Providers">
+            <End Role="Core_Providers" EntitySet="Core_Providers" />
+            <End Role="Core_Apointments" EntitySet="Core_Apointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_Apointments_Core_ServiceCatalog" Association="Self.FK_Core_Apointments_Core_ServiceCatalog">
+            <End Role="Core_ServiceCatalog" EntitySet="Core_ServiceCatalog" />
+            <End Role="Core_Apointments" EntitySet="Core_Apointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_CosumerServices_Core_Consumers" Association="Self.FK_Core_CosumerServices_Core_Consumers">
+            <End Role="Core_Consumers" EntitySet="Core_Consumers" />
+            <End Role="Core_CosumerServices" EntitySet="Core_CosumerServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_CosumerServices_Core_ServiceCatalog" Association="Self.FK_Core_CosumerServices_Core_ServiceCatalog">
+            <End Role="Core_ServiceCatalog" EntitySet="Core_ServiceCatalog" />
+            <End Role="Core_CosumerServices" EntitySet="Core_CosumerServices" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AspNetIdentity2_FromScratch.AspNetIdentityModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Core_Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PartyId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddressType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AddressLine1" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="AddressLine2" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Zip" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedOn" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Core_Apointments">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProviderId" Type="Int32" />
+          <Property Name="CosumerId" Type="Int32" />
+          <Property Name="ServiceId" Type="Int32" />
+          <Property Name="StartTime" Type="DateTime" Precision="3" />
+          <Property Name="EndTime" Type="DateTime" Precision="3" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Core_Consumers" Relationship="Self.FK_Core_Apointments_Core_Consumers" FromRole="Core_Apointments" ToRole="Core_Consumers" />
+          <NavigationProperty Name="Core_Providers" Relationship="Self.FK_Core_Apointments_Core_Providers" FromRole="Core_Apointments" ToRole="Core_Providers" />
+          <NavigationProperty Name="Core_ServiceCatalog" Relationship="Self.FK_Core_Apointments_Core_ServiceCatalog" FromRole="Core_Apointments" ToRole="Core_ServiceCatalog" />
+        </EntityType>
+        <EntityType Name="Core_Consumers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="ConsumerType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PrimaryUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="SecondaryUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Core_Apointments" Relationship="Self.FK_Core_Apointments_Core_Consumers" FromRole="Core_Consumers" ToRole="Core_Apointments" />
+          <NavigationProperty Name="Core_CosumerServices" Relationship="Self.FK_Core_CosumerServices_Core_Consumers" FromRole="Core_Consumers" ToRole="Core_CosumerServices" />
+        </EntityType>
+        <EntityType Name="Core_PartyTypes">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PartyType" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Value" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Core_Providers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProviderType" Type="Int32" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="PrimaryUsreId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="SecondaryUsreId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Licence" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="ServiceCapacity" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Core_Apointments" Relationship="Self.FK_Core_Apointments_Core_Providers" FromRole="Core_Providers" ToRole="Core_Apointments" />
+        </EntityType>
+        <EntityType Name="Core_ServiceCatalog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentId" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Cost" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="ServiceUnit" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="Created" Type="DateTime" Precision="3" />
+          <Property Name="Modified" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Core_Apointments" Relationship="Self.FK_Core_Apointments_Core_ServiceCatalog" FromRole="Core_ServiceCatalog" ToRole="Core_Apointments" />
+          <NavigationProperty Name="Core_CosumerServices" Relationship="Self.FK_Core_CosumerServices_Core_ServiceCatalog" FromRole="Core_ServiceCatalog" ToRole="Core_CosumerServices" />
+        </EntityType>
+        <EntityType Name="Core_CosumerServices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ConsumerId" Type="Int32" />
+          <Property Name="ServiceId" Type="Int32" />
+          <NavigationProperty Name="Core_Consumers" Relationship="Self.FK_Core_CosumerServices_Core_Consumers" FromRole="Core_CosumerServices" ToRole="Core_Consumers" />
+          <NavigationProperty Name="Core_ServiceCatalog" Relationship="Self.FK_Core_CosumerServices_Core_ServiceCatalog" FromRole="Core_CosumerServices" ToRole="Core_ServiceCatalog" />
+        </EntityType>
+        <Association Name="FK_Core_Apointments_Core_Consumers">
+          <End Role="Core_Consumers" Type="Self.Core_Consumers" Multiplicity="0..1" />
+          <End Role="Core_Apointments" Type="Self.Core_Apointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_Consumers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_Apointments">
+              <PropertyRef Name="CosumerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_Apointments_Core_Providers">
+          <End Role="Core_Providers" Type="Self.Core_Providers" Multiplicity="0..1" />
+          <End Role="Core_Apointments" Type="Self.Core_Apointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_Providers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_Apointments">
+              <PropertyRef Name="ProviderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_Apointments_Core_ServiceCatalog">
+          <End Role="Core_ServiceCatalog" Type="Self.Core_ServiceCatalog" Multiplicity="0..1" />
+          <End Role="Core_Apointments" Type="Self.Core_Apointments" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_ServiceCatalog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_Apointments">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_CosumerServices_Core_Consumers">
+          <End Role="Core_Consumers" Type="Self.Core_Consumers" Multiplicity="0..1" />
+          <End Role="Core_CosumerServices" Type="Self.Core_CosumerServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_Consumers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_CosumerServices">
+              <PropertyRef Name="ConsumerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Core_CosumerServices_Core_ServiceCatalog">
+          <End Role="Core_ServiceCatalog" Type="Self.Core_ServiceCatalog" Multiplicity="0..1" />
+          <End Role="Core_CosumerServices" Type="Self.Core_CosumerServices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Core_ServiceCatalog">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Core_CosumerServices">
+              <PropertyRef Name="ServiceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Core_Address" EntityType="Self.Core_Address" />
+          <EntitySet Name="Core_Apointments" EntityType="Self.Core_Apointments" />
+          <EntitySet Name="Core_Consumers" EntityType="Self.Core_Consumers" />
+          <EntitySet Name="Core_PartyTypes" EntityType="Self.Core_PartyTypes" />
+          <EntitySet Name="Core_Providers" EntityType="Self.Core_Providers" />
+          <EntitySet Name="Core_ServiceCatalog" EntityType="Self.Core_ServiceCatalog" />
+          <EntitySet Name="Core_CosumerServices" EntityType="Self.Core_CosumerServices" />
+          <AssociationSet Name="FK_Core_Apointments_Core_Consumers" Association="Self.FK_Core_Apointments_Core_Consumers">
+            <End Role="Core_Consumers" EntitySet="Core_Consumers" />
+            <End Role="Core_Apointments" EntitySet="Core_Apointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_Apointments_Core_Providers" Association="Self.FK_Core_Apointments_Core_Providers">
+            <End Role="Core_Providers" EntitySet="Core_Providers" />
+            <End Role="Core_Apointments" EntitySet="Core_Apointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_Apointments_Core_ServiceCatalog" Association="Self.FK_Core_Apointments_Core_ServiceCatalog">
+            <End Role="Core_ServiceCatalog" EntitySet="Core_ServiceCatalog" />
+            <End Role="Core_Apointments" EntitySet="Core_Apointments" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_CosumerServices_Core_Consumers" Association="Self.FK_Core_CosumerServices_Core_Consumers">
+            <End Role="Core_Consumers" EntitySet="Core_Consumers" />
+            <End Role="Core_CosumerServices" EntitySet="Core_CosumerServices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Core_CosumerServices_Core_ServiceCatalog" Association="Self.FK_Core_CosumerServices_Core_ServiceCatalog">
+            <End Role="Core_ServiceCatalog" EntitySet="Core_ServiceCatalog" />
+            <End Role="Core_CosumerServices" EntitySet="Core_CosumerServices" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AspNetIdentity2_FromScratchAspNetIdentityModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Core_Address">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_Address">
+              <MappingFragment StoreEntitySet="Core_Address">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PartyId" ColumnName="PartyId" />
+                <ScalarProperty Name="AddressType" ColumnName="AddressType" />
+                <ScalarProperty Name="AddressLine1" ColumnName="AddressLine1" />
+                <ScalarProperty Name="AddressLine2" ColumnName="AddressLine2" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip" ColumnName="Zip" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="ModifiedOn" ColumnName="ModifiedOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_Apointments">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_Apointments">
+              <MappingFragment StoreEntitySet="Core_Apointments">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProviderId" ColumnName="ProviderId" />
+                <ScalarProperty Name="CosumerId" ColumnName="CosumerId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_Consumers">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_Consumers">
+              <MappingFragment StoreEntitySet="Core_Consumers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="ConsumerType" ColumnName="ConsumerType" />
+                <ScalarProperty Name="PrimaryUserId" ColumnName="PrimaryUserId" />
+                <ScalarProperty Name="SecondaryUserId" ColumnName="SecondaryUserId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_PartyTypes">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyTypes">
+              <MappingFragment StoreEntitySet="Core_PartyTypes">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PartyType" ColumnName="PartyType" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_Providers">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_Providers">
+              <MappingFragment StoreEntitySet="Core_Providers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProviderType" ColumnName="ProviderType" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="PrimaryUsreId" ColumnName="PrimaryUsreId" />
+                <ScalarProperty Name="SecondaryUsreId" ColumnName="SecondaryUsreId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Licence" ColumnName="Licence" />
+                <ScalarProperty Name="ServiceCapacity" ColumnName="ServiceCapacity" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_ServiceCatalog">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_ServiceCatalog">
+              <MappingFragment StoreEntitySet="Core_ServiceCatalog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Cost" ColumnName="Cost" />
+                <ScalarProperty Name="ServiceUnit" ColumnName="ServiceUnit" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modified" ColumnName="Modified" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Core_CosumerServices">
+            <EntityTypeMapping TypeName="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_CosumerServices">
+              <MappingFragment StoreEntitySet="Core_CosumerServices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ConsumerId" ColumnName="ConsumerId" />
+                <ScalarProperty Name="ServiceId" ColumnName="ServiceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

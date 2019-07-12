@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d66f0f1ee7424195b6da455f8fb9be1d" Name="Diagram1">
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_Address" Width="1.5" PointX="8.625" PointY="5.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_Apointments" Width="1.5" PointX="3" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_Consumers" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_PartyTypes" Width="1.5" PointX="5.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_Providers" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_ServiceCatalog" Width="1.5" PointX="5" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="AspNetIdentity2_FromScratch.AspNetIdentityModel.Core_CosumerServices" Width="1.5" PointX="6" PointY="3.125" IsExpanded="true" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_Apointments_Core_Consumers" ManuallyRouted="false" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_Apointments_Core_Providers" ManuallyRouted="false" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_Apointments_Core_ServiceCatalog" ManuallyRouted="false" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_CosumerServices_Core_Consumers" ManuallyRouted="false" />
+        <AssociationConnector Association="AspNetIdentity2_FromScratch.AspNetIdentityModel.FK_Core_CosumerServices_Core_ServiceCatalog" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
